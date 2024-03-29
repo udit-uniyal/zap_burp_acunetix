@@ -39,6 +39,17 @@ jobs:
    runs-on: ubuntu-latest
    steps:
      - name: Run Dastardly Action Step
+       continue-on-error: true  
        uses: PortSwigger/dastardly-github-action@main
        with:
          target-url: 'http://testhtml5.vulnweb.com/'
+
+     - name: Publish Test Report
+       if: always()                                    # Forces this step to always run
+       uses: mikepenz/action-junit-report@v3
+       with:
+          report_paths: '**/dastardly-report.xml'       # You need to update this path if you pass in a different output filename to the Dastardly action
+          require_tests: true
+
+
+
